@@ -9,7 +9,6 @@ before_script:
   - CI_PUSH_REPO=`echo $CI_REPOSITORY_URL | perl -pe 's#.*@(.+?(\:\d+)?)/#git@\1:#'`
   - git checkout -B "${CI_COMMIT_REF_NAME}" "${CI_COMMIT_SHA}"
   - git remote set-url --push origin "${CI_PUSH_REPO}"
-  - rm -rf ~/Library/Developer/Xcode/DerivedData
 
 test UpdateCenter:
   stage: test

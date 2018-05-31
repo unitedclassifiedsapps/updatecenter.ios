@@ -1,9 +1,10 @@
 before_all do
   xcversion(version: "~> 9")
+  clear_derived_data
 end
 
 lane :test do |options|
-  cocoapods(podfile: 'Example/Podfile', repo_update: true)
+  cocoapods(podfile: 'Example/Podfile', try_repo_update_on_error: true)
   podname=sh('pod ipc spec ../UpdateCenter.podspec | python -c \'import json,sys,sets;obj=json.load(sys.stdin);print(obj["name"])\'|tr -d \'\n\'')
   scan(
     workspace:'Example/UpdateCenter.xcworkspace',
@@ -20,7 +21,7 @@ lane :test do |options|
 end
 
 lane :documentation do |options|
-  cocoapods(podfile: 'Example/Podfile', repo_update: true)
+  cocoapods(podfile: 'Example/Podfile', try_repo_update_on_error: true)
   podname=sh('pod ipc spec ../UpdateCenter.podspec | python -c \'import json,sys,sets;obj=json.load(sys.stdin);print(obj["name"])\'|tr -d \'\n\'')
   xcclean(
     workspace:'Example/UpdateCenter.xcworkspace',
@@ -31,12 +32,7 @@ end
 
 desc "Lints pod based on podspec as parameter"
 lane :lint_pod do |options|
-  repoExists=Integer(sh('pod repo list | grep ucpods > /dev/null; echo $?|tr -d \'\n\''))
-  if repoExists > 0
-    sh('pod repo add ucpods git@gitlab.i.etech.sk:inzercia-mob-app/cocoapods.git')
-  end
-  sh('pod repo update')
-  sh('pod lib lint ../UpdateCenter.podspec --allow-warnings --sources=master,ucpods')
+  pod_lib_lint(allow_warnings: true)
 end
 
 desc "Releases pod based on podspec as parameter"
@@ -46,6 +42,6 @@ lane :release_pod do |options|
     lint_pod options
     sh('git tag -m "Release '+version+'" "'+version+'"')
     sh('git push --tags')
-    sh('pod repo push ucpods ../UpdateCenter.podspec --allow-warnings --sources=master,ucpods')
+    pod_push(path: 'UpdateCenter.podspec', allow_warnings: true)
   end
 end
