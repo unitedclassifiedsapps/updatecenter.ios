@@ -1,0 +1,64 @@
+stages:
+  - test
+  - build
+  - deploy
+
+before_script:
+  - git config user.email "gitlab-ci@gitlab.i.etech.sk"
+  - git config user.name "gitlab-ci"
+  - CI_PUSH_REPO=`echo $CI_REPOSITORY_URL | perl -pe 's#.*@(.+?(\:\d+)?)/#git@\1:#'`
+  - git checkout -B "${CI_COMMIT_REF_NAME}" "${CI_COMMIT_SHA}"
+  - git remote set-url --push origin "${CI_PUSH_REPO}"
+  - rm -rf ~/Library/Developer/Xcode/DerivedData
+
+test UpdateCenter:
+  stage: test
+  except:
+    - tags
+  tags:
+    - ios
+  script:
+    - fastlane test
+    - fastlane documentation
+  artifacts:
+    paths:
+      - fastlane/test_output/UpdateCenter
+      - fastlane/docs/UpdateCenter
+    expire_in: 1 day
+
+build UpdateCenter:
+  stage: build
+  except:
+    - tags
+  tags:
+    - ios
+  script:
+    - fastlane lint_pod
+
+deploy UpdateCenter:
+  stage: deploy
+  tags:
+    - ios
+  script:
+    - fastlane release_pod
+  only:
+    - master
+
+
+pages:
+  stage: deploy
+  tags:
+    - ios
+  script:
+    - rm -rf public/coverage
+    - rm -rf public/docs
+    - mkdir -p public/coverage
+    - mkdir -p public/docs
+    - mv fastlane/test_output/UpdateCenter/coverage public/coverage/UpdateCenter
+    - mv fastlane/docs/UpdateCenter public/docs/UpdateCenter
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 day
+  only:
+    - master

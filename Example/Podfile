@@ -1,0 +1,13 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'UpdateCenter_Example' do
+  
+  pod 'UpdateCenter', :path => '../'
+
+  target 'UpdateCenter_Tests' do
+    inherit! :search_paths
+  end
+end
+
+

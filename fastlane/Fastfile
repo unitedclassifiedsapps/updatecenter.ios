@@ -1,0 +1,51 @@
+before_all do
+  xcversion(version: "~> 9")
+end
+
+lane :test do |options|
+  cocoapods(podfile: 'Example/Podfile', repo_update: true)
+  podname=sh('pod ipc spec ../UpdateCenter.podspec | python -c \'import json,sys,sets;obj=json.load(sys.stdin);print(obj["name"])\'|tr -d \'\n\'')
+  scan(
+    workspace:'Example/UpdateCenter.xcworkspace',
+    scheme:podname+'-Example',
+    code_coverage:true,
+    output_directory:"fastlane/test_output/"+podname
+    )
+  xcov(
+    workspace:'Example/UpdateCenter.xcworkspace',
+    scheme:podname+'-Example',
+    output_directory: "fastlane/test_output/"+podname+"/coverage",
+    include_targets: "UpdateCenter.framework"
+  )
+end
+
+lane :documentation do |options|
+  cocoapods(podfile: 'Example/Podfile', repo_update: true)
+  podname=sh('pod ipc spec ../UpdateCenter.podspec | python -c \'import json,sys,sets;obj=json.load(sys.stdin);print(obj["name"])\'|tr -d \'\n\'')
+  xcclean(
+    workspace:'Example/UpdateCenter.xcworkspace',
+    scheme:podname
+  )
+  sh('cd .. && jazzy --output fastlane/docs/'+podname+' --xcodebuild-arguments -workspace,Example/UpdateCenter.xcworkspace,-scheme,'+podname)
+end
+
+desc "Lints pod based on podspec as parameter"
+lane :lint_pod do |options|
+  repoExists=Integer(sh('pod repo list | grep ucpods > /dev/null; echo $?|tr -d \'\n\''))
+  if repoExists > 0
+    sh('pod repo add ucpods git@gitlab.i.etech.sk:inzercia-mob-app/cocoapods.git')
+  end
+  sh('pod repo update')
+  sh('pod lib lint ../UpdateCenter.podspec --allow-warnings --sources=master,ucpods')
+end
+
+desc "Releases pod based on podspec as parameter"
+lane :release_pod do |options|
+  version=sh('pod ipc spec ../UpdateCenter.podspec | python -c \'import json,sys,sets;obj=json.load(sys.stdin);print(obj["version"])\'|tr -d \'\n\'')
+  if !git_tag_exists(tag: version)
+    lint_pod options
+    sh('git tag -m "Release '+version+'" "'+version+'"')
+    sh('git push --tags')
+    sh('pod repo push ucpods ../UpdateCenter.podspec --allow-warnings --sources=master,ucpods')
+  end
+end
