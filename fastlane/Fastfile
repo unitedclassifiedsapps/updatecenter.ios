@@ -42,6 +42,6 @@ lane :release_pod do |options|
     lint_pod options
     sh('git tag -m "Release '+version+'" "'+version+'"')
     sh('git push --tags')
-    pod_push(path: 'UpdateCenter.podspec', allow_warnings: true)
+    pod_push(path: 'UpdateCenter.podspec', allow_warnings: true, verbose: true)
   end
 end
