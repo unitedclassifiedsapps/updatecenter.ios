@@ -6,6 +6,9 @@ stages:
 before_script:
   - git config user.email "gitlab-ci@gitlab.i.etech.sk"
   - git config user.name "gitlab-ci"
+  - git remote show
+  - git remote show origin
+  - git remote show upstream
   - CI_PUSH_REPO=`echo $CI_REPOSITORY_URL | perl -pe 's#.*@(.+?(\:\d+)?)/#git@\1:#'`
   - git checkout -B "${CI_COMMIT_REF_NAME}" "${CI_COMMIT_SHA}"
   - git remote set-url --push origin "${CI_PUSH_REPO}"
