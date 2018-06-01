@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name             = 'UpdateCenter'
   s.module_name      = 'UpdateCenter'
-  s.version          = '0.1.3'
-  s.summary          = 'A short description of UpdateCenter.'
+  s.version          = '0.1.4'
+  s.summary          = 'Manage your application updates from remote source (API / Firebase). UpdateCenter library notifies you when there are new updates for your app.'
 
   s.description      = <<-DESC
     Library to manage application updates in app

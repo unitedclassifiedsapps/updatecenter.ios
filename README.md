@@ -2,11 +2,14 @@
 
 [![pipeline status](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/badges/master/pipeline.svg)](https://github.com/unitedclassifiedsapps/updatecenter.ios/commits/master)
 [![coverage report](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/badges/master/coverage.svg)](https://unitedclassifiedsapps.gitlab.io/updatecenter.ios/coverage/UpdateCenter)
+[![Cocoapods](https://img.shields.io/cocoapods/v/UpdateCenter.svg)](https://cocoapods.org)
 
-## Requirements
-* Xcode 9.0+
-* Swift 4.0
-* iOS 9.0+
+Manage your application updates from remote source (API / Firebase).
+
+UpdateCenter library notifies you when there are new updates for your app. It recognizes:
+* necessary update
+* unnecessary update
+* notification about new version available
 
 ## Documentation
 
@@ -17,6 +20,9 @@
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+* Xcode 9.0+
+* Swift 4.0
+* iOS 9.0+
 
 ## Installation
 
