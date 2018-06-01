@@ -1,7 +1,7 @@
 # UpdateCenter
 
-[![pipeline status](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/badges/master/pipeline.svg)](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/commits/master)
-[![coverage report](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/badges/master/coverage.svg)](https://unitedclassifiedsapps.gitlab.io/updatecenter.ios/coverage/html/)
+[![pipeline status](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/badges/master/pipeline.svg)](https://github.com/unitedclassifiedsapps/updatecenter.ios/commits/master)
+[![coverage report](https://gitlab.com/unitedclassifiedsapps/updatecenter.ios/badges/master/coverage.svg)](https://unitedclassifiedsapps.gitlab.io/updatecenter.ios/coverage/UpdateCenter)
 
 ## Requirements
 * Xcode 9.0+
