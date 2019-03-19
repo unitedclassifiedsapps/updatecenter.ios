@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'UpdateCenter'
   s.module_name      = 'UpdateCenter'
-  s.version          = '0.1.4'
+  s.version          = '0.1.5'
   s.summary          = 'Manage your application updates from remote source (API / Firebase). UpdateCenter library notifies you when there are new updates for your app.'
 
   s.description      = <<-DESC
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
    }
 
   s.dependency 'Firebase/RemoteConfig', '4.13.0'
-  s.framework      = ['FirebaseABTesting', 'FirebaseCore', 'FirebaseCoreDiagnostics', 'FirebaseInstanceID', 'FirebaseNanoPB', 'FirebaseRemoteConfig']
+  s.framework      = ['FirebaseABTesting', 'FirebaseCore', 'FirebaseCoreDiagnostics', 'FirebaseInstanceID', 'FirebaseNanoPB', 'FirebaseRemoteConfig', 'Protobuf']
 
   #s.static_framework = true
 end
